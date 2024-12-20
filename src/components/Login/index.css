@@ -1,0 +1,150 @@
+
+.container {
+    display: flex;
+    /* flex-direction: column; */
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background: #f3f6fd;
+    padding:50px
+  }
+  
+  /* Left side panel */
+  .left-panel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #eef2ff;
+  }
+  
+  .illustration-img {
+    width: 80%;
+    max-width: 300px;
+  }
+  
+  /* Right side panel */
+  .right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    box-shadow: -10px 0px 30px rgba(0, 0, 0, 0.1);
+    
+  }
+  
+  .form-container {
+    width: 80%; 
+    max-width: 400px;
+   
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .header p {
+    color: #777;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Form input styling */
+  .input-group {
+    margin-bottom: 0.5rem;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #6c5ce7;
+    border: none;
+    color: white;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .login-btn:hover {
+    background-color: #4a38b6;
+  }
+  
+  /* Social login section */
+  .social-login {
+    text-align: center;
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .social-icons img {
+    width: 20px;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  .signin-text {
+    text-align: center;
+    margin-top: 0.5rem;
+    color: #777;
+  }
+  
+  .signin-text a {
+    color: #6c5ce7;
+    text-decoration: none;
+  }
+  
+  .head-title {
+    color: #6c5ce7;
+    font-weight: bold;
+  }
+  
+  .popup {
+    margin-top: 4px;
+    padding: 4px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .popup.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .popup.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+  
+  .popup.error ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .popup.error li {
+    margin: 1px 0;
+  }
+  
+  

@@ -1,0 +1,69 @@
+/* CustomSidebar.css */
+
+/* Sidebar Container */
+.pro-sidebar {
+    background-color: #2c3e50;  /* Dark background */
+    color: #ecf0f1;  /* Light text color */
+    width: 250px;
+    height: 100vh;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  
+  /* Sidebar title */
+  .sidebar-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 20px;
+    background-color: #34495e;
+    color: #ecf0f1;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  /* Menu and Menu items */
+  .pro-sidebar .menu-item {
+    padding: 12px;
+    text-align: left;
+    font-size: 16px;
+    color: #ecf0f1;  /* White text */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .pro-sidebar .menu-item:hover {
+    background-color: #16a085;  /* Green color on hover */
+  }
+  
+  .pro-sidebar .active {
+    background-color: #e74c3c;  /* Red color for active item */
+  }
+  
+  .pro-sidebar .menu-item a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+  }
+  
+  /* Icon colors */
+  .pro-sidebar .menu-item .icon {
+    color: #ecf0f1;
+    margin-right: 10px;
+  }
+  
+  /* Highlighted menu item */
+  .pro-sidebar .menu-item.active {
+    background-color: #2980b9;  /* Blue background for active item */
+  }
+  
+  .pro-sidebar .menu-item:hover {
+    background-color: #3498db;  /* Blue hover effect */
+  }
+  
+  .pro-sidebar .submenu .menu-item {
+    padding-left: 40px;
+  }
+  
