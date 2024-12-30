@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState } from "react";
+
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Home from "./components/Home";
@@ -7,20 +9,122 @@ import Sidebar from "./components/Sidebar";
 import Overview from "./components/Overview";
 import StockPortfolio from "./components/StockPortfolio";
 import Header from "./components/Header";
-import Dashboard from "./components/Dashboard"
+import ProtectedRoute from "./components/ProtectedRoute";
+import Logout from "./components/Logout";
+import Account from "./components/Account";
+import Category from "./components/Category";
+import Transaction from "./components/Transaction";
+import Budget from "./components/Budget";
+import Setting from "./components/Setting";
+import Goal from "./components/Goal";
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   return (
     <Router>
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path='/sidebar' element={<Sidebar />} />
-        <Route path='/overview' element={<Overview />} />
-        <Route path='/stock' element={<StockPortfolio />} />
-        <Route path='/header' element={<Header />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+
+        {/* Protected Routes */}
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/logout"
+          element={
+            <ProtectedRoute>
+              <Logout />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <ProtectedRoute>
+              <Account />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/category"
+          element={
+            <ProtectedRoute>
+              <Category />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/transaction"
+          element={
+            <ProtectedRoute>
+              <Transaction />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/budget"
+          element={
+            <ProtectedRoute>
+              <Budget />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/setting"
+          element={
+            <ProtectedRoute>
+              <Setting />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/goal"
+          element={
+            <ProtectedRoute>
+              <Goal />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/sidebar"
+          element={
+            <ProtectedRoute>
+              <Sidebar />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/overview"
+          element={
+            <ProtectedRoute>
+              <Overview />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/stock"
+          element={
+            <ProtectedRoute>
+              <StockPortfolio />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/header"
+          element={
+            <ProtectedRoute>
+              <Header />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );

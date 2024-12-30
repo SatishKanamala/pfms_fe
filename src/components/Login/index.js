@@ -38,11 +38,10 @@ const Login = () => {
       }
 
       const response = await axios.post("http://localhost:8000/api/v1/user/login", payload);
-      console.log(response.data);
 
       if (response.data.data.token) {
         // Save token to cookies
-        Cookies.set("auth_token", response.data.token, { expires: 7 }); // Token will expire in 7 days
+        Cookies.set("auth_token", response.data.data.token, { expires: 7 }); // Token will expire in 7 days
         setMessage("Login successful!");
         setMessageType("success");
         setErrors([]);
@@ -71,8 +70,8 @@ const Login = () => {
       {/* Left Panel */}
       <div className="w-full md:w-1/2 xl:w-1/2 bg-indigo-100 flex justify-center items-center p-6">
         <img
-          src="https://via.placeholder.com/300"
-          alt="illustration"
+          src="/images/Wallet.png"
+          alt="Wallet"
           className="max-w-xs w-full"
         />
       </div>
