@@ -7,7 +7,7 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import Sidebar from "./components/Sidebar";
 import Overview from "./components/Overview";
-import StockPortfolio from "./components/StockPortfolio";
+import StockPortfolio from "./components/Analytics";
 import Header from "./components/Header";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Logout from "./components/Logout";
@@ -17,6 +17,8 @@ import Transaction from "./components/Transaction";
 import Budget from "./components/Budget";
 import Setting from "./components/Setting";
 import Goal from "./components/Goal";
+import Investment from "./components/Investment";
+import Analytics from "./components/Analytics";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -122,6 +124,22 @@ function App() {
           element={
             <ProtectedRoute>
               <Header />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/investment"
+          element={
+            <ProtectedRoute>
+              <Investment />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Analytics />
             </ProtectedRoute>
           }
         />

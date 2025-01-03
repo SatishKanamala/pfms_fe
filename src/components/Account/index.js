@@ -249,17 +249,17 @@ function Account() {
                         {/* Update Icon */}
                         <span
                           onClick={() => togglePopup(item)}
-                          className="text-yellow-500 cursor-pointer hover:text-yellow-600"
+                          className="text-blue-500 cursor-pointer hover:text-yellow-600 mx-2"
                         >
-                          <FiEdit size={24} />
+                          <FiEdit  />
                         </span>
 
                         {/* Delete Icon */}
                         <span
                           onClick={() => toggleDeletePopup(item.id)}
-                          className="text-red-500 cursor-pointer hover:text-red-600"
+                          className="text-red-500 cursor-pointer hover:text-red-600 mx-2"
                         >
-                          <FiTrash2 size={24} />
+                          <FiTrash2  />
                         </span>
                       </div>
                     </td>

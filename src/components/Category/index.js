@@ -249,9 +249,9 @@ function Category() {
                         {/* Update Icon */}
                         <span
                           onClick={() => togglePopup(item)}
-                          className="text-yellow-500 cursor-pointer hover:text-yellow-600"
+                          className="hover:text-blue-600 text-blue-500 cursor-pointer mx-2"
                         >
-                          <FiEdit size={24} />
+                          <FiEdit  />
                         </span>
 
                         {/* Delete Icon */}
@@ -259,7 +259,7 @@ function Category() {
                           onClick={() => toggleDeletePopup(item.id)}
                           className="text-red-500 cursor-pointer hover:text-red-600"
                         >
-                          <FiTrash2 size={24} />
+                          <FiTrash2  />
                         </span>
                       </div>
                     </td>
@@ -339,7 +339,7 @@ function Category() {
       {isDeletePopupOpen && (
         <div className="fixed inset-0 z-50 flex justify-center items-center bg-gray-500 bg-opacity-75">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-lg font-semibold mb-4">Are you sure you want to delete?</h2>
+            <h2 className="text-lg font-bold mb-4">Are you sure you want to delete this category?</h2>
             <div className="flex justify-between">
               <button
                 onClick={() => setIsDeletePopupOpen(false)}

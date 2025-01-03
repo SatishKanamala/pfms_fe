@@ -7,6 +7,9 @@ import {
   CogIcon,
   LogoutIcon,
   CurrencyDollarIcon,
+  TrendingUpIcon,
+  ChartBarIcon,
+  DocumentReportIcon
 } from '@heroicons/react/solid';
 
 import { NavLink } from 'react-router-dom'; // For routing
@@ -19,7 +22,10 @@ const Sidebar = () => {
   { name: 'Transactions', path: '/transaction', icon: CashIcon },
   { name: 'Budget', path: '/budget', icon: CurrencyDollarIcon },
   { name: 'Goals', path: '/goal', icon: AdjustmentsIcon },
+  { name: 'Investments', path: '/investment', icon: TrendingUpIcon },
+  { name: 'Reports & Analytics', path: '/analytics', icon: ChartBarIcon },
   { name: 'Settings', path: '/setting', icon: CogIcon },
+  
   
   ];
 
@@ -33,7 +39,7 @@ const Sidebar = () => {
               key={item.name}
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center gap-4 mb-4 px-3 py-2 rounded-lg transition ${
+                `flex items-center gap-4 mb-3 px-3 py-2 rounded-lg transition ${
                   isActive ? 'bg-gray-700' : 'hover:bg-gray-800'
                 }`
               }

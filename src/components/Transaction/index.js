@@ -8,13 +8,16 @@ import Sidebar from "../Sidebar";
 
 function Transaction() {
   const [data, setData] = useState([]); 
+  const [account, setaccount] = useState([]); // To store account data
+  const [category, setcategory] = useState([]);
   const [isLoading, setIsLoading] = useState(true); 
   const [formData, setFormData] = useState({
     id: null,
-    account_id: "",
+    account: "",
     transaction_type: "",
     amount: "",
-    date: "",
+    category:"",
+    description:""
   });
   const [message, setMessage] = useState(""); 
   const [messageType, setMessageType] = useState(""); 
@@ -22,6 +25,44 @@ function Transaction() {
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false); 
   const [deleteTransactionId, setDeleteTransactionId] = useState(null); 
   const token = Cookies.get("auth_token"); 
+
+  // Fetch category data from API
+  const fetchcategory = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/v1/category/get_all", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (response.data && response.data.data) {
+        setcategory(response.data.data); // Store category
+      } else {
+        setMessage("No category found.");
+        setMessageType("error");
+      }
+    } catch (error) {
+      console.error("Error fetching category:", error.response.data.error);
+      setMessage(error.response.data.error || "An error occurred while fetching category data.");
+      setMessageType("error");
+    }
+  };
+
+  // Fetch account data from API
+  const fetchaccount = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/v1/account/get_all", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (response.data && response.data.data) {
+        setaccount(response.data.data); // Store account
+      } else {
+        setMessage("No account found.");
+        setMessageType("error");
+      }
+    } catch (error) {
+      console.error("Error fetching account:", error.response.data.error);
+      setMessage(error.response.data.error || "An error occurred while fetching account data.");
+      setMessageType("error");
+    }
+  };
 
   // Fetch transaction data from API
   const fetchData = async () => {
@@ -52,21 +93,24 @@ function Transaction() {
 
   // Open popup for add or update transaction
   const togglePopup = (transaction = null) => {
+    
     if (transaction) {
       setFormData({
         id: transaction.id,
-        account_id: transaction.account_id,
+        account: transaction.account,
         transaction_type: transaction.transaction_type,
         amount: transaction.amount,
-        date: transaction.date,
+        description: transaction.description,
+        category: transaction.category
       });
     } else {
       setFormData({
         id: null,
-        account_id: "",
+        account: "",
         transaction_type: "",
         amount: "",
-        date: "",
+        category: "",
+        description: ""
       });
     }
     setIsPopupOpen(!isPopupOpen);
@@ -136,6 +180,8 @@ function Transaction() {
 
   useEffect(() => {
     fetchData();
+    fetchaccount(); // Fetch account when component mounts
+    fetchcategory();
   }, []);
 
   useEffect(() => {
@@ -159,7 +205,7 @@ function Transaction() {
         {message && (
           <div
             className={`fixed top-4 left-1/2 transform -translate-x-1/2 w-full max-w-xl p-4 mb-4 text-white rounded-lg flex items-center ${messageType === "success" ? "bg-green-500" : "bg-red-500"}`}
-            style={{ maxWidth: '400px', wordWrap: 'break-word' }} // Dynamically adjust width and wrap text
+            style={{ maxWidth: '400px', wordWrap: 'break-word' }}
           >
             <div className="mr-3">
               {messageType === "success" ? (
@@ -208,138 +254,178 @@ function Transaction() {
               <thead>
                 <tr className="bg-gray-200">
                   <th className="px-4 py-2">S.No.</th>
-                  <th className="px-4 py-2">Account ID</th>
+                  <th className="px-4 py-2">Account Name</th>
                   <th className="px-4 py-2">Transaction Type</th>
                   <th className="px-4 py-2">Amount</th>
-                  <th className="px-4 py-2">Date</th>
+                  <th className="px-4 py-2">Category</th>
+                  <th className="px-4 py-2">Description</th>
                   <th className="px-4 py-2">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {data.map((item, index) => (
-                  <tr key={item.id}>
+              {data.map((transaction, index) => {
+                // Find the account name by matching the account ID
+                const accountName = account.find(acc => acc.id === transaction.account)?.bank_name || 'N/A';
+                
+                // Find the category name by matching the category ID
+                const categoryName = category.find(cat => cat.id === transaction.category)?.name || 'N/A';
+                
+                return (
+                  <tr key={transaction.id} className="border-t">
                     <td className="border px-4 py-2">{index + 1}</td>
-                    <td className="border px-4 py-2">{item.account_id}</td>
-                    <td className="border px-4 py-2">{item.transaction_type}</td>
-                    <td className="border px-4 py-2">{item.amount}</td>
-                    <td className="border px-4 py-2">{item.date}</td>
+                    <td className="border px-4 py-2">{accountName}</td>  {/* Display account name */}
+                    
+                    <td className="border px-4 py-2">{transaction.transaction_type}</td>
+                    <td className="border px-4 py-2">{transaction.amount}</td>
+                    <td className="border px-4 py-2">{categoryName}</td>  {/* Display category name */}
+                    <td className="border px-4 py-2">{transaction.description}</td>
                     <td className="border px-4 py-2 space-x-2">
                       <div className="flex space-x-2">
                         {/* Update Icon */}
                         <span
-                          onClick={() => togglePopup(item)}
-                          className="text-yellow-500 cursor-pointer hover:text-yellow-700"
-                        >
-                          <FiEdit />
-                        </span>
-                        {/* Delete Icon */}
-                        <span
-                          onClick={() => toggleDeletePopup(item.id)}
-                          className="text-red-500 cursor-pointer hover:text-red-700"
-                        >
-                          <FiTrash2 />
-                        </span>
-                      </div>
-                    </td>
+                          onClick={() => togglePopup(transaction)}
+                                              className="text-blue-500 cursor-pointer hover:text-yellow-600 mx-2"
+                                            >
+                                              <FiEdit  />
+                                            </span>
+                    
+                                            {/* Delete Icon */}
+                                            <span
+                                              onClick={() => toggleDeletePopup(transaction.id)}
+                                              className="text-red-500 cursor-pointer hover:text-red-600 mx-2"
+                                            >
+                                              <FiTrash2  />
+                                            </span>
+                                          </div>
+                                        </td>
+                    
                   </tr>
-                ))}
-              </tbody>
+                );
+              })}
+            </tbody>
             </table>
           )}
         </div>
 
-        {/* Delete Confirmation Popup */}
-        {isDeletePopupOpen && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
-              <h3 className="text-lg font-semibold">Are you sure you want to delete this transaction?</h3>
-              <div className="flex justify-end space-x-3 mt-4">
-                <button
-                  onClick={handleDelete}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-                >
-                  Yes, Delete
-                </button>
-                <button
-                  onClick={() => setIsDeletePopupOpen(false)}
-                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-                >
-                  Cancel
-                </button>
-              </div>
+        {/* Add/Update Popup */}
+        {isPopupOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+              <h3 className="text-lg font-semibold mb-4">
+                {formData.id ? "Update Transaction" : "Add Transaction"}
+              </h3>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                  <label htmlFor="account" className="block text-sm font-medium text-gray-700">Account</label>
+                  <select
+                    id="account"
+                    name="account"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={formData.account}
+                    onChange={handleInputChange}
+                    required
+                  >
+                    <option value="">Select Account</option>
+                    {account.map((acc) => (
+                      <option key={acc.id} value={acc.id}>{acc.bank_name}-{acc.account_number}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
+                  <select
+                    id="category"
+                    name="category"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={formData.category}
+                    onChange={handleInputChange}
+                    required
+                  >
+                    <option value="">Select Category</option>
+                    {category.map((cat) => (
+                      <option key={cat.id} value={cat.id}>{cat.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="transaction_type" className="block text-sm font-medium text-gray-700">Transaction Type</label>
+                  <select
+                    id="transaction_type"
+                    name="transaction_type"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={formData.transaction_type}
+                    onChange={handleInputChange}
+                    required
+                  >
+                    <option value="">Select Type</option>
+                    <option value="Income">Income</option>
+                    <option value="Expenses">Expenses</option>
+                  </select>
+                </div>
+                
+                <div className="mb-4">
+                  <label htmlFor="amount" className="block text-sm font-medium text-gray-700">Amount</label>
+                  <input
+                    type="number"
+                    id="amount"
+                    name="amount"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={formData.amount}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="flex justify-between">
+                  <button
+                    type="button"
+                    className="px-6 py-2 bg-gray-400 text-white rounded-lg shadow-lg hover:bg-gray-500"
+                    onClick={() => togglePopup()}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-blue-600 px-6 py-2 text-white rounded-md"
+                  >
+                    {formData.id ? "Update" : "Add"} 
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}
 
-        {/* Add/Update Transaction Form */}
-        {isPopupOpen && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
-              <h3 className="text-lg font-semibold">{formData.id ? "Update Transaction" : "Add Transaction"}</h3>
-              <form onSubmit={handleSubmit}>
-                <div className="mt-4">
-                  <label className="block text-gray-700">Account ID</label>
-                  <input
-                    type="text"
-                    name="account_id"
-                    value={formData.account_id}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 mt-2 border rounded-lg"
-                    required
-                  />
-                </div>
-                <div className="mt-4">
-                  <label className="block text-gray-700">Transaction Type</label>
-                  <select
-                    name="transaction_type"
-                    value={formData.transaction_type}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 mt-2 border rounded-lg"
-                    required
-                  >
-                    <option value="">Select Type</option>
-                    <option value="Deposit">Deposit</option>
-                    <option value="Withdrawal">Withdrawal</option>
-                  </select>
-                </div>
-                <div className="mt-4">
-                  <label className="block text-gray-700">Amount</label>
-                  <input
-                    type="number"
-                    name="amount"
-                    value={formData.amount}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 mt-2 border rounded-lg"
-                    required
-                  />
-                </div>
-                <div className="mt-4">
-                  <label className="block text-gray-700">Date</label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 mt-2 border rounded-lg"
-                    required
-                  />
-                </div>
-                <div className="flex justify-end space-x-3 mt-4">
-                  <button
-                    type="submit"
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                  >
-                    Save
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsPopupOpen(false)}
-                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
+        {/* Delete Confirmation Popup */}
+        {isDeletePopupOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 z-50 bg-gray-500">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+              <h2 className="text-lg font-bold mb-4">Are you sure you want to delete this transaction?</h2>
+              <div className="flex justify-between">
+                <button
+                  type="button"
+                  className="px-6 py-2 bg-gray-400 text-white rounded-lg shadow-lg hover:bg-gray-500"
+                  onClick={() => setIsDeletePopupOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="bg-red-600 px-6 py-2 text-white rounded-md"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         )}
