@@ -3,7 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const Header = () => {
-  const [userData, setUserData] = useState({ username: "", greeting: "" });
+  const [userData, setUserData] = useState({ username: "", greeting: "", profile_pic:""  });
 
   useEffect(() => {
     const token = Cookies.get("auth_token"); // Retrieve the token from cookies
@@ -17,6 +17,8 @@ const Header = () => {
           withCredentials: true, // Ensure cookies are sent with the request
         })
         .then((response) => {
+          console.log(response.data.data.profile_pic);
+          
           setUserData(response.data.data);
         })
         .catch((error) => {
@@ -42,10 +44,11 @@ const Header = () => {
           placeholder="Search"
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
+        
         <img
-          src="https://via.placeholder.com/40"
+          src={`${userData.profile_pic}`}
           alt="Profile"
-          className="rounded-full border-2 border-indigo-600"
+          className="rounded-full w-12"
         />
       </div>
     </header>

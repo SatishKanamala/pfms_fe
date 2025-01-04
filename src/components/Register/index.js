@@ -75,9 +75,11 @@ const Register = () => {
       });
       
       if (res.data.data.token) {
+              console.log(res.data.data.token);
+              
               // Save token to cookies
               Cookies.set("auth_token", res.data.data.token, { expires: 7 }); // Token will expire in 7 days
-              setMessage("Registered with google successful!");
+              setMessage("successs");
               setMessageType("success");
               setErrors([]);
       
@@ -198,7 +200,7 @@ const Register = () => {
 
           {/* Display success message */}
           {message && messageType === "success" && (
-            <div className="mt-4 p-4 bg-green-100 text-green-800 rounded-md">{message}</div>
+            <div className="mt-2 p-2 bg-green-100 text-green-800 rounded-md">{message}</div>
           )}
 
           {/* Display errors */}
@@ -214,12 +216,12 @@ const Register = () => {
 
           {/* Social login section */}
           <div className="mt-6 text-center">
-            <p className="text-xs sm:text-sm text-gray-600">Register account with</p>
+            <p className="text-xs sm:text-sm text-gray-600">OR</p>
             <div className="flex justify-center space-x-4 mt-4">
               <GoogleLogin clientId = "985346293558-iaff7dse11icdvs4v2e1n241tcmlglbq.apps.googleusercontent.com"
                 onSuccess={handleGoogleSuccess}
                 onError={handleGoogleError}
-                text="signin_with"
+                text="signup_with"
                 shape="rectangular"
               />
             </div>

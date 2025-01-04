@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import Cookies from "js-cookie"; // Import js-cookie to handle cookies
 
@@ -65,7 +66,51 @@ const Login = () => {
     }
   };
 
+
+  const handleGoogleSuccess = async (response) => {
+    try {
+      const googleData = response.credential; // Token from Google
+      const res = await axios.post("http://localhost:8000/api/v1/user/login/google", {
+        token: googleData,
+      });
+      
+      if (res.data.data.token) {
+              // Save token to cookies
+              Cookies.set("auth_token", res.data.data.token, { expires: 7 }); // Token will expire in 7 days
+              setMessage("successs");
+              setMessageType("success");
+              setErrors([]);
+      
+              // Redirect to home page after 2 seconds
+              setTimeout(() => {
+                navigate("/home");
+              }, 2000);
+            }    
+    } catch (error) {
+      console.log(error.res.data.error);
+      if (error.res && error.res.data.error) {
+        const backendErrors = Array.isArray(error.res.data.error)
+          ? error.res.data.error
+          : [{ error: error.res.data.error }];
+        setErrors(backendErrors);
+        setMessageType("error");
+      } else {
+        setErrors([{ error: "Unable to connect to the server." }]);
+        setMessageType("error");
+      }
+    }
+  };
+
+  const handleGoogleError = () => {
+    setErrors([{ error: "Google authentication failed. Please try again." }]);
+    setMessageType("error");
+  };
+
+
   return (
+    <GoogleOAuthProvider 
+        clientId="985346293558-iaff7dse11icdvs4v2e1n241tcmlglbq.apps.googleusercontent.com"
+        >
     <div className="flex flex-col lg:flex-row min-h-screen">
       {/* Left Panel */}
       <div className="w-full md:w-1/2 xl:w-1/2 bg-indigo-100 flex justify-center items-center p-6">
@@ -138,9 +183,22 @@ const Login = () => {
               Sign Up
             </a>
           </p>
+          <div className="mt-6 text-center">
+                      <p className="text-xs sm:text-sm text-gray-600">OR</p>
+                      <div className="flex justify-center space-x-4 mt-4">
+                        <GoogleLogin clientId = "985346293558-iaff7dse11icdvs4v2e1n241tcmlglbq.apps.googleusercontent.com"
+                          onSuccess={handleGoogleSuccess}
+                          onError={handleGoogleError}
+                          text="signin_with"
+                          shape="rectangular"
+                        />
+                      </div>
+                    </div>
         </div>
       </div>
+      
     </div>
+    </GoogleOAuthProvider>
   );
 };
 
