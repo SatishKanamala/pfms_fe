@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 
-function Transaction() {
+function Expense() {
   const [data, setData] = useState([]); 
   const [account, setaccount] = useState([]); // To store account data
   const [category, setcategory] = useState([]);
@@ -71,7 +71,7 @@ function Transaction() {
   // Fetch transaction data from API
   const fetchData = async (page) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/transaction/get_all/?limit=${pageSize}&offset=${(currentPage - 1) * pageSize}`, {
+      const response = await axios.get(`http://localhost:8000/api/v1/transaction/expense/get_all/?limit=${pageSize}&offset=${(currentPage - 1) * pageSize}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (response.data && response.data.data) {
@@ -130,7 +130,7 @@ function Transaction() {
       let response;
       if (formData.id) {
         // Update transaction API call
-        response = await axios.put(`http://localhost:8000/api/v1/transaction/update/${formData.id}`, formData, {
+        response = await axios.put(`http://localhost:8000/api/v1/transaction/expense/update/${formData.id}`, formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage(response.data.message || "Updated successfully!");
@@ -140,7 +140,7 @@ function Transaction() {
         setData(prevData => prevData.map(item => (item.id === formData.id ? { ...item, ...formData } : item)));
       } else {
         // Add transaction API call
-        response = await axios.post("http://localhost:8000/api/v1/transaction/create", formData, {
+        response = await axios.post("http://localhost:8000/api/v1/transaction/expense/create", formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -169,7 +169,7 @@ function Transaction() {
     if (!deleteTransactionId) return;
     
     try {
-      const response = await axios.delete(`http://localhost:8000/api/v1/transaction/delete/${deleteTransactionId}`, {
+      const response = await axios.delete(`http://localhost:8000/api/v1/transaction/expense/delete/${deleteTransactionId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessage(response.data.message || "Deleted successfully!");
@@ -257,7 +257,7 @@ function Transaction() {
             <div className="text-center">
               <div>
                 <img
-                  src="images/no_data.png"
+                  src="/images/no_data.png"
                   alt="No Data"
                   className="max-w-xs w-full mx-auto"
                 />
@@ -270,7 +270,6 @@ function Transaction() {
                 <tr className="bg-gray-200">
                   <th className="px-4 py-2">S.No.</th>
                   <th className="px-4 py-2">Account Name</th>
-                  <th className="px-4 py-2">Transaction Type</th>
                   <th className="px-4 py-2">Amount</th>
                   <th className="px-4 py-2">Category</th>
                   <th className="px-4 py-2">Description</th>
@@ -284,17 +283,16 @@ function Transaction() {
                 
                 // Find the category name by matching the category ID
                 const categoryName = category.find(cat => cat.id === transaction.category)?.name || 'N/A';
-                const amountPrefix = transaction.transaction_type === "Income" ? "+" : "-";
+                // const categoryType = category.find(cat => cat.id === transaction.category)?.type || 'N/A';
+                // const amountPrefix = categoryType === "Income" ? "+" : "-";
                 
                 return (
                   <tr key={transaction.id} className="border-t">
                     <td className="border px-4 py-2">{index + 1}</td>
                     <td className="border px-4 py-2">{accountName}</td>  {/* Display account name */}
-                    
-                    <td className="border px-4 py-2">{transaction.transaction_type}</td>
                     <td className="border px-4 py-2">
-                       <p className={`text-sm font-bold ${amountPrefix === "+" ? "text-green-600" : "text-red-600"}`}>
-                      {amountPrefix} Rs.{transaction.amount}/-
+                       <p className="text-sm font-bold text-red-600">
+                         Rs.{transaction.amount}/-
                     </p>
                     </td>
                     <td className="border px-4 py-2">{categoryName}</td>  {/* Display category name */}
@@ -396,22 +394,6 @@ function Transaction() {
                   </select>
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="transaction_type" className="block text-sm font-medium text-gray-700">Transaction Type</label>
-                  <select
-                    id="transaction_type"
-                    name="transaction_type"
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={formData.transaction_type}
-                    onChange={handleInputChange}
-                    required
-                  >
-                    <option value="">Select Type</option>
-                    <option value="Income">Income</option>
-                    <option value="Expenses">Expenses</option>
-                  </select>
-                </div>
-                
-                <div className="mb-4">
                   <label htmlFor="amount" className="block text-sm font-medium text-gray-700">Amount</label>
                   <input
                     type="number"
@@ -482,4 +464,4 @@ function Transaction() {
   );
 }
 
-export default Transaction;
+export default Expense;

@@ -21,19 +21,15 @@ function Home() {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
+        <div>
         <Header />
+        </div>
+        <br/><br/><br/><br/><br/>
         <div className="p-6 space-y-6">
           {/* Overview Component */}
           <Overview />
 
-          {/* Grid for large screens, stacked for small screens */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* <Transactions /> */}
-            {/* <Analytics /> */}
-          </div>
-
-          {/* Optional: Stock Portfolio (only on larger screens) */}
-          {/* <StockPortfolio /> */}
+          
         </div>
       </div>
     </div>

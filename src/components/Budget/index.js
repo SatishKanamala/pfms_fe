@@ -177,7 +177,7 @@ function Budget() {
       </div>
       <div className="flex-1 flex flex-col">
         <Header />
-
+        <br/><br/><br/><br/><br/>
         {/* Show message at the top */}
         {message && (
           <div

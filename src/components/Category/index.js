@@ -6,6 +6,9 @@ import Cookies from "js-cookie";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 
+
+
+
 function Category() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -170,7 +173,7 @@ function Category() {
       </div>
       <div className="flex-1 flex flex-col">
         <Header />
-
+        <br/><br/><br/><br/><br/>
         {/* Show message at the top */}
         {message && (
           <div
@@ -277,17 +280,121 @@ function Category() {
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h2 className="text-xl font-semibold mb-4">{formData.id ? "Update Category" : "Add Category"}</h2>
             <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block text-gray-700">Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
+            <div className="mb-4">
+                <label className="block text-gray-700">Transaction Category</label>
+                <select
+                  name="transactionCategory"
+                  value={formData.transactionCategory}
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                >
+                  <option value="" disabled>Select a category</option>
+                  
+                  {/* Income Categories */}
+                  <optgroup label="Income Categories">
+                    <option value="salary">Salary</option>
+                    <option value="bonus">Bonus</option>
+                    <option value="interest-income">Interest Income</option>
+                    <option value="dividend-income">Dividend Income</option>
+                    <option value="rental-income">Rental Income</option>
+                    <option value="business-revenue">Business Revenue</option>
+                    <option value="freelance">Freelance/Contract Work</option>
+                    <option value="royalties">Royalties</option>
+                    <option value="tax-refunds">Tax Refunds</option>
+                    <option value="gifts-received">Gifts Received</option>
+                    <option value="grants-subsidies">Grants/Subsidies</option>
+                  </optgroup>
+
+                  {/* Expense Categories */}
+                  <optgroup label="Expense Categories">
+                    {/* Personal Expenses */}
+                    <option value="groceries">Groceries</option>
+                    <option value="rent">Rent/Mortgage</option>
+                    <option value="utilities">Utilities</option>
+                    <option value="transportation">Transportation</option>
+                    <option value="insurance">Insurance</option>
+                    <option value="healthcare">Healthcare</option>
+                    <option value="education">Education</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="dining">Dining/Restaurants</option>
+                    <option value="clothing">Clothing/Apparel</option>
+                    <option value="personal-care">Personal Care</option>
+                    <option value="fitness">Fitness</option>
+                    <option value="travel">Travel</option>
+
+                    {/* Business Expenses */}
+                    <option value="office-supplies">Office Supplies</option>
+                    <option value="marketing">Marketing/Advertising</option>
+                    <option value="employee-salaries">Employee Salaries</option>
+                    <option value="training">Training/Workshops</option>
+                    <option value="software">Software/Subscriptions</option>
+                    <option value="professional-services">Professional Services</option>
+                    <option value="business-travel">Business Travel</option>
+                    <option value="equipment">Equipment</option>
+
+                    {/* Miscellaneous Expenses */}
+                    <option value="charity">Charity/Donations</option>
+                    <option value="gifts-given">Gifts Given</option>
+                    <option value="taxes">Taxes Paid</option>
+                    <option value="penalties">Penalties/Fines</option>
+                  </optgroup>
+
+                  {/* Savings/Investment Categories */}
+                  <optgroup label="Savings/Investment Categories">
+                    <option value="savings-deposit">Savings Deposit</option>
+                    <option value="stock-purchase">Stock Purchase</option>
+                    <option value="mutual-funds">Mutual Funds</option>
+                    <option value="real-estate">Real Estate Investment</option>
+                    <option value="retirement-contributions">Retirement Contributions</option>
+                    <option value="fixed-deposits">Fixed Deposits</option>
+                    <option value="bonds">Bonds</option>
+                    <option value="cryptocurrency">Cryptocurrency</option>
+                  </optgroup>
+
+                  {/* Loan Categories */}
+                  <optgroup label="Loan Categories">
+                    <option value="personal-loan">Personal Loan</option>
+                    <option value="auto-loan">Auto Loan</option>
+                    <option value="mortgage">Mortgage</option>
+                    <option value="student-loan">Student Loan</option>
+                    <option value="business-loan">Business Loan</option>
+                  </optgroup>
+
+                  {/* Tax Categories */}
+                  <optgroup label="Tax Categories">
+                    <option value="income-tax">Income Tax</option>
+                    <option value="property-tax">Property Tax</option>
+                    <option value="sales-tax">Sales Tax</option>
+                    <option value="gst">GST/VAT</option>
+                  </optgroup>
+
+                  {/* E-commerce/Online Payment Categories */}
+                  <optgroup label="E-commerce/Online Payment">
+                    <option value="online-shopping">Online Shopping</option>
+                    <option value="subscriptions">Subscriptions</option>
+                    <option value="digital-goods">Digital Goods</option>
+                  </optgroup>
+
+                  {/* Financial Transfers */}
+                  <optgroup label="Financial Transfers">
+                    <option value="bank-transfers">Bank Transfers</option>
+                    <option value="mobile-wallets">Mobile Wallet Transfers</option>
+                    <option value="credit-card">Credit Card Payments</option>
+                    <option value="debit-card">Debit Card Payments</option>
+                    <option value="atm-withdrawals">ATM Withdrawals</option>
+                  </optgroup>
+
+                  {/* Special Categories */}
+                  <optgroup label="Special Categories">
+                    <option value="emergency-fund">Emergency Fund</option>
+                    <option value="childcare">Childcare</option>
+                    <option value="wedding">Wedding/Events</option>
+                    <option value="home-renovation">Home Renovation</option>
+                  </optgroup>
+                </select>
               </div>
+
               <div className="mb-4">
                 <label className="block text-gray-700">Description</label>
                 <input

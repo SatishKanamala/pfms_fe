@@ -17,8 +17,6 @@ const Header = () => {
           withCredentials: true, // Ensure cookies are sent with the request
         })
         .then((response) => {
-          console.log(response.data.data.profile_pic);
-          
           setUserData(response.data.data);
         })
         .catch((error) => {
@@ -30,15 +28,15 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="flex justify-between items-center p-6 bg-white shadow-md">
+    <header className="flex p-6 bg-white shadow-md w-full fixed">
       <div>
-        <h1 className="text-2xl font-semibold text-indigo-600">
-          {userData.greeting}, {userData.username}
+        <h1 className="text-2xl font-semibold text-indigo-600 ">
+          {userData.greeting}, <span className="font-bold">{userData.username.toUpperCase()}</span>
         </h1>
         <p className="text-gray-600">Celebrate small wins—every financial milestone is a step closer to your dreams.</p>
       </div>
 
-      <div className="flex items-center space-x-4">
+      <div className="flex mx-36">
         <input
           type="text"
           placeholder="Search"
@@ -48,7 +46,7 @@ const Header = () => {
         <img
           src={`${userData.profile_pic}`}
           alt="Profile"
-          className="rounded-full w-12"
+          className="rounded-full w-12 h-12 ml-4"
         />
       </div>
     </header>

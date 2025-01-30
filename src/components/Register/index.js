@@ -215,9 +215,9 @@ const Register = () => {
           )}
 
           {/* Social login section */}
-          <div className="mt-6 text-center">
+          <div className="mt-3 text-center">
             <p className="text-xs sm:text-sm text-gray-600">OR</p>
-            <div className="flex justify-center space-x-4 mt-4">
+            <div className="flex justify-center space-x-4 mt-2">
               <GoogleLogin clientId = "985346293558-iaff7dse11icdvs4v2e1n241tcmlglbq.apps.googleusercontent.com"
                 onSuccess={handleGoogleSuccess}
                 onError={handleGoogleError}

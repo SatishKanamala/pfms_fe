@@ -19,6 +19,8 @@ import Setting from "./components/Setting";
 import Goal from "./components/Goal";
 import Investment from "./components/Investment";
 import Analytics from "./components/Analytics";
+import Income from "./components/Income";
+import Expense from "./components/Expense";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -140,6 +142,22 @@ function App() {
           element={
             <ProtectedRoute>
               <Analytics />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/transaction/income"
+          element={
+            <ProtectedRoute>
+              <Income />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/transaction/expense"
+          element={
+            <ProtectedRoute>
+              <Expense />
             </ProtectedRoute>
           }
         />
